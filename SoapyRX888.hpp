@@ -60,6 +60,7 @@ public:
      
     std::vector<std::string> getStreamFormats(const int direction, const size_t channel) const;
 
+    std::string getNativeStreamFormat(const int direction, const size_t channel, double &fullScale) const;
 
 
 };
