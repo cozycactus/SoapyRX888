@@ -31,8 +31,13 @@ if (NOT SoapySDR_FOUND)
 endif ()
 
 include_directories(${MY_DEVICE_INCLUDE_DIRS})
+
 SOAPY_SDR_MODULE_UTIL(
-    TARGET MyDevice
-    SOURCES SoapyRX888.cpp
+    TARGET rx888Support
+    SOURCES
+        SoapyRX888.cpp
+        Registration.cpp
+        Settings.cpp
+        Streaming.cpp
     LIBRARIES ${MY_DEVICE_LIBRARIES}
 )

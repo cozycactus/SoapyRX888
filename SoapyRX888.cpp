@@ -5,7 +5,7 @@
 
 #include <string>
 #include "SoapyRX888.hpp"
-#if 0
+
 /***********************************************************************
  * Device interface
  **********************************************************************/
@@ -16,31 +16,6 @@ class MyDevice : public SoapySDR::Device
     //Implement all applicable virtual methods from SoapySDR::Device
 };
 
-/***********************************************************************
- * Find available devices
- **********************************************************************/
-SoapySDR::KwargsList findMyDevice(const SoapySDR::Kwargs &args)
-{
-    //locate the device on the system...
-    //return a list of 0, 1, or more argument maps that each identify a device
-}
-
-/***********************************************************************
- * Make device instance
- **********************************************************************/
-SoapySDR::Device *makeMyDevice(const SoapySDR::Kwargs &args)
-{
-    //create an instance of the device object given the args
-    //here we will translate args into something used in the constructor
-    return new MyDevice(...);
-}
-
-/***********************************************************************
- * Registration
- **********************************************************************/
-static SoapySDR::Registry registerMyDevice("my_device", &findMyDevice, &makeMyDevice, SOAPY_SDR_ABI_VERSION);
-
-#endif
 
 /*******************************************************************
  * Identification API
