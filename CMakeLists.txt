@@ -3,8 +3,8 @@
 # We recommend that the support module be built in-tree with the driver.
 ########################################################################
 cmake_minimum_required(VERSION 2.6)
-project(SoapySDRMyDevice CXX)
-enable_testing()
+project(SoapyRX888 CXX)
+
 
 #select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)

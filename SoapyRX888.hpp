@@ -28,7 +28,7 @@
 #include <SoapySDR/Logger.h>
 #include <SoapySDR/Types.h>
 #include <SoapySDR/Types.hpp>
-
+#include <librx888.h>
 
 
 class SoapyRX888: public SoapySDR::Device
