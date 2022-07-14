@@ -35,7 +35,6 @@ SoapySDR::KwargsList findRX888(const SoapySDR::Kwargs &args)
         devInfo["serial"] = serial;
         devInfo["manufacturer"] = manufact;
         
-
         //filtering by serial
         if (args.count("serial") != 0 and args.at("serial") != serial) continue;
 

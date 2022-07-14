@@ -1,7 +1,8 @@
 
 #include "SoapyRX888.hpp"
+#include <SoapySDR/Time.hpp>
 #include <SoapySDR/Types.hpp>
-
+#include <algorithm>
 
 
 
@@ -10,6 +11,7 @@ SoapyRX888::SoapyRX888(const SoapySDR::Kwargs &args):
     dev(nullptr),
     rxFormat(RX888_RX_FORMAT_INT16),
     sampleRate(64000000)
+    
 {
     if (args.count("label") != 0) SoapySDR_logf(SOAPY_SDR_INFO, "Opening %s...", args.at("label").c_str());
 
@@ -29,6 +31,13 @@ SoapyRX888::SoapyRX888(const SoapySDR::Kwargs &args):
 
     
 }
+
+SoapyRX888::~SoapyRX888(void)
+{
+    //cleanup device handles
+    rx888_close(dev);
+}
+
 
 
 /*******************************************************************

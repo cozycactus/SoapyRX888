@@ -4,9 +4,14 @@
 #include <SoapySDR/Device.hpp>
 #include <SoapySDR/Logger.h>
 #include <SoapySDR/Types.h>
-#include <SoapySDR/Types.hpp>
-#include <cstdint>
+
+//#include <cstdint>
 #include <librx888.h>
+#include <stdexcept>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
 
 typedef enum rx888RXFormat
 {
@@ -17,7 +22,7 @@ typedef enum rx888RXFormat
 class SoapyRX888: public SoapySDR::Device
 {
 public:
-    explicit SoapyRX888(const SoapySDR::Kwargs &args);
+    SoapyRX888(const SoapySDR::Kwargs &args);
 
     ~SoapyRX888(void);
 
