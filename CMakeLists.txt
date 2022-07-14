@@ -34,8 +34,7 @@ include_directories(${MY_DEVICE_INCLUDE_DIRS})
 
 SOAPY_SDR_MODULE_UTIL(
     TARGET rx888Support
-    SOURCES
-        SoapyRX888.cpp
+    SOURCES        
         Registration.cpp
         Settings.cpp
         Streaming.cpp
