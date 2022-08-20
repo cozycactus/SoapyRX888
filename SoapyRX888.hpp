@@ -22,7 +22,7 @@ typedef enum rx888RXFormat
 class SoapyRX888: public SoapySDR::Device
 {
 public:
-    SoapyRX888(const SoapySDR::Kwargs &args);
+    explicit SoapyRX888(const SoapySDR::Kwargs &args);
 
     ~SoapyRX888(void);
 
