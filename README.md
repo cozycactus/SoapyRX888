@@ -1,3 +1,5 @@
+# This is a work in progress
+
 # Example module build for SoapySDR device support
 
 Copy this example wholesale either as a new cmake build project,
