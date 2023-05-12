@@ -79,3 +79,141 @@ bool SoapyRX888::getFullDuplex(const int direction, const size_t channel) const
 {
     return false;
 }
+
+/*******************************************************************
+ * Antenna API
+ ******************************************************************/
+
+std::vector<std::string> SoapyRX888::listAntennas(const int direction, const size_t channel) const
+{
+    std::vector<std::string> antennas;
+    antennas.push_back("RX");
+    return antennas;
+}
+
+
+void SoapyRX888::setAntenna(const int direction, const size_t channel, const std::string &name)
+{
+    if (direction != SOAPY_SDR_RX)
+    {
+        throw std::runtime_error("setAntena failed: RX888 only supports RX");
+    }
+}
+
+std::string SoapyRX888::getAntenna(const int direction, const size_t channel) const
+{
+    return "RX";
+}
+
+/*******************************************************************
+ * Frontend corrections API
+ ******************************************************************/
+
+bool SoapyRX888::hasDCOffsetMode(const int direction, const size_t channel) const
+{
+    return false;
+}
+
+bool SoapyRX888::hasFrequencyCorrection(const int direction, const size_t channel) const
+{
+    return false;
+}
+
+/*******************************************************************
+ * Gain API
+ ******************************************************************/
+
+bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
+{
+    return false;
+}
+
+
+
+SoapySDR::ArgInfoList SoapyRX888::getFrequencyArgsInfo(const int direction, const size_t channel) const
+{
+    SoapySDR::ArgInfoList freqArgs;
+
+    // TODO: frequency arguments
+
+    return freqArgs;
+}
+
+/*******************************************************************
+ * Sample Rate API
+ ******************************************************************/
+
+void SoapyRX888::setSampleRate(const int direction, const size_t channel, const double rate)
+{
+    long long ns = SoapySDR::ticksToTimeNs(ticks, sampleRate);
+    sampleRate = rate;
+    resetBuffer = true;
+    SoapySDR_logf(SOAPY_SDR_DEBUG, "Setting sample rate: %d", sampleRate);
+    int r = rx888_set_sample_rate(dev, sampleRate);
+    if (r == -EINVAL)
+    {
+        throw std::runtime_error("setSampleRate failed: RX888 does not support this sample rate");
+    }
+    if (r != 0)
+    {
+        throw std::runtime_error("setSampleRate failed");
+    }
+    sampleRate = rx888_get_sample_rate(dev);
+    ticks = SoapySDR::timeNsToTicks(ns, sampleRate);
+}
+
+double SoapyRX888::getSampleRate(const int direction, const size_t channel) const
+{
+    return sampleRate;
+}
+
+std::vector<double> SoapyRX888::listSampleRates(const int direction, const size_t channel) const
+{
+    std::vector<double> results;
+
+    results.push_back(250000);
+    results.push_back(500000);
+    results.push_back(1000000);
+    results.push_back(2000000);
+    results.push_back(4000000);
+    results.push_back(8000000);
+    results.push_back(16000000);
+    results.push_back(32000000);
+    results.push_back(64000000);
+    results.push_back(128000000);
+
+    return results;
+}
+
+/*******************************************************************
+ * Time API
+ ******************************************************************/
+
+std::vector<std::string> SoapyRX888::listTimeSources(void) const
+{
+    std::vector<std::string> results;
+
+    results.push_back("sw_ticks");
+
+    return results;
+}
+
+std::string SoapyRX888::getTimeSource(void) const
+{
+    return "sw_ticks";
+}
+
+bool SoapyRX888::hasHardwareTime(const std::string &what) const
+{
+    return what == "" || what == "sw_ticks";
+}
+
+long long SoapyRX888::getHardwareTime(const std::string &what) const
+{
+    return SoapySDR::ticksToTimeNs(ticks, sampleRate);
+}
+
+void SoapyRX888::setHardwareTime(const long long timeNs, const std::string &what)
+{
+    ticks = SoapySDR::timeNsToTicks(timeNs, sampleRate);
+}
