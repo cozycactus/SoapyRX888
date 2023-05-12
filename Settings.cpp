@@ -54,6 +54,18 @@ std::string SoapyRX888::getHardwareKey(void) const
     return "RX888";
 }
 
+SoapySDR::Kwargs SoapyRX888::getHardwareInfo(void) const
+{
+    //key/value pairs for any useful information
+    //this also gets printed in --probe
+    SoapySDR::Kwargs args;
+
+    args["origin"] = "https://github.com/cozycactus/SoapyRX888";
+    args["index"] = std::to_string(deviceId);
+
+    return args;
+}    
+
 /*******************************************************************
  * Channels API
  ******************************************************************/
