@@ -80,7 +80,7 @@ SoapySDR::ArgInfoList SoapyRX888::getStreamArgsInfo(const int direction, const s
 static void _rx_callback(unsigned char *buf, uint32_t len, void *ctx)
 {
     //printf("_rx_callback\n");
-    SoapyRX888 *self = (SoapyRX888 *)ctx;
+    SoapyRX888 *self = static_cast<SoapyRX888*>(ctx);
     self->rx_callback(buf, len);
 }
 
@@ -295,7 +295,7 @@ int SoapyRX888::readStream(
     size_t returnedElems = std::min(bufferedElems, numElems);
 
     //convert into user's buff0
-    int16_t *itarget = (int16_t *) buff0;
+    int16_t *itarget = reinterpret_cast<int16_t*>(buff0);
     for (size_t i = 0; i < returnedElems; i++)
     {
         itarget[i] = *((int16_t*) &_currentBuff[2 * i]);
@@ -323,7 +323,7 @@ size_t SoapyRX888::getNumDirectAccessBuffers(SoapySDR::Stream *stream)
 
 int SoapyRX888::getDirectAccessBufferAddrs(SoapySDR::Stream *stream, const size_t handle, void **buffs)
 {
-    buffs[0] = (void *)_buffs[handle].data.data();
+    buffs[0] = static_cast<void*>(_buffs[handle].data.data());
     return 0;
 }
 
