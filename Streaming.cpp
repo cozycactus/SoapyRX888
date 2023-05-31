@@ -15,6 +15,8 @@
  ******************************************************************/
 
 std::vector<std::string> SoapyRX888::getStreamFormats(const int direction, const size_t channel) const {
+    (void)channel; //unused
+    (void)direction; //unused
     std::vector<std::string> formats;
 
     formats.push_back(SOAPY_SDR_S16);
@@ -23,6 +25,7 @@ std::vector<std::string> SoapyRX888::getStreamFormats(const int direction, const
 }
 
 std::string SoapyRX888::getNativeStreamFormat(const int direction, const size_t channel, double &fullScale) const {
+    (void)channel; //unused
     //check that direction is SOAPY_SDR_RX
      if (direction != SOAPY_SDR_RX) {
          throw std::runtime_error("RX888 is RX only, use SOAPY_SDR_RX");
@@ -33,6 +36,7 @@ std::string SoapyRX888::getNativeStreamFormat(const int direction, const size_t 
 }
 
 SoapySDR::ArgInfoList SoapyRX888::getStreamArgsInfo(const int direction, const size_t channel) const {
+    (void)channel; //unused
     //check that direction is SOAPY_SDR_RX
      if (direction != SOAPY_SDR_RX) {
          throw std::runtime_error("RX888 is RX only, use SOAPY_SDR_RX");
@@ -225,6 +229,7 @@ void SoapyRX888::closeStream(SoapySDR::Stream *stream)
 
 size_t SoapyRX888::getStreamMTU(SoapySDR::Stream *stream) const
 {
+    (void) stream; //unused
     return bufferLength / BYTES_PER_SAMPLE;
 }
 
@@ -234,6 +239,9 @@ int SoapyRX888::activateStream(
         const long long timeNs,
         const size_t numElems)
 {
+    (void) stream; //unused
+    (void) timeNs; //unused
+    (void) numElems; //unused
     if (flags != 0) return SOAPY_SDR_NOT_SUPPORTED;
     resetBuffer = true;
     bufferedElems = 0;
@@ -250,6 +258,8 @@ int SoapyRX888::activateStream(
 
 int SoapyRX888::deactivateStream(SoapySDR::Stream *stream, const int flags, const long long timeNs)
 {
+    (void) timeNs; //unused
+    (void) stream; //unused
     if (flags != 0) return SOAPY_SDR_NOT_SUPPORTED;
     if (_rx_async_thread.joinable())
     {
@@ -318,11 +328,13 @@ int SoapyRX888::readStream(
 
 size_t SoapyRX888::getNumDirectAccessBuffers(SoapySDR::Stream *stream)
 {
+    (void)stream; //unused
     return _buffs.size();
 }
 
 int SoapyRX888::getDirectAccessBufferAddrs(SoapySDR::Stream *stream, const size_t handle, void **buffs)
 {
+    (void)stream; //unused
     buffs[0] = static_cast<void*>(_buffs[handle].data.data());
     return 0;
 }
@@ -335,6 +347,7 @@ int SoapyRX888::acquireReadBuffer(
     long long &timeNs,
     const long timeoutUs)
 {
+    (void)stream; //unused
     //reset is issued by various settings
     //to drain old data out of the queue
     if (resetBuffer)
@@ -379,6 +392,8 @@ void SoapyRX888::releaseReadBuffer(
     SoapySDR::Stream *stream,
     const size_t handle)
 {
+    (void)stream; //unused
+    (void)handle; //unused
     //TODO this wont handle out of order releases
     _buf_count--;
 }

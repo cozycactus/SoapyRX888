@@ -4,13 +4,12 @@
 #include <SoapySDR/Types.hpp>
 #include <algorithm>
 
-
-
 SoapyRX888::SoapyRX888(const SoapySDR::Kwargs &args):
     deviceId(-1),
     dev(nullptr),
     rxFormat(RX888_RX_FORMAT_INT16),
-    sampleRate(64000000)
+    sampleRate(64000000),
+    numBuffers(DEFAULT_NUM_BUFFERS)
     
 {
     if (args.count("label") != 0) SoapySDR_logf(SOAPY_SDR_INFO, "Opening %s...", args.at("label").c_str());
@@ -77,6 +76,8 @@ size_t SoapyRX888::getNumChannels(const int dir) const
 
 bool SoapyRX888::getFullDuplex(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     return false;
 }
 
@@ -86,14 +87,17 @@ bool SoapyRX888::getFullDuplex(const int direction, const size_t channel) const
 
 std::vector<std::string> SoapyRX888::listAntennas(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     std::vector<std::string> antennas;
     antennas.push_back("RX");
     return antennas;
 }
 
-
 void SoapyRX888::setAntenna(const int direction, const size_t channel, const std::string &name)
 {
+    (void)channel;
+    (void)name;
     if (direction != SOAPY_SDR_RX)
     {
         throw std::runtime_error("setAntena failed: RX888 only supports RX");
@@ -102,6 +106,8 @@ void SoapyRX888::setAntenna(const int direction, const size_t channel, const std
 
 std::string SoapyRX888::getAntenna(const int direction, const size_t channel) const
 {
+    (void)channel;
+    (void)direction;
     return "RX";
 }
 
@@ -111,11 +117,15 @@ std::string SoapyRX888::getAntenna(const int direction, const size_t channel) co
 
 bool SoapyRX888::hasDCOffsetMode(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     return false;
 }
 
 bool SoapyRX888::hasFrequencyCorrection(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     return false;
 }
 
@@ -125,6 +135,8 @@ bool SoapyRX888::hasFrequencyCorrection(const int direction, const size_t channe
 
 bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     return false;
 }
 
@@ -132,6 +144,8 @@ bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
 
 SoapySDR::ArgInfoList SoapyRX888::getFrequencyArgsInfo(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     SoapySDR::ArgInfoList freqArgs;
 
     // TODO: frequency arguments
@@ -145,6 +159,8 @@ SoapySDR::ArgInfoList SoapyRX888::getFrequencyArgsInfo(const int direction, cons
 
 void SoapyRX888::setSampleRate(const int direction, const size_t channel, const double rate)
 {
+    (void)direction;
+    (void)channel;
     long long ns = SoapySDR::ticksToTimeNs(ticks, sampleRate);
     sampleRate = rate;
     resetBuffer = true;
@@ -164,11 +180,15 @@ void SoapyRX888::setSampleRate(const int direction, const size_t channel, const 
 
 double SoapyRX888::getSampleRate(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     return sampleRate;
 }
 
 std::vector<double> SoapyRX888::listSampleRates(const int direction, const size_t channel) const
 {
+    (void)direction;
+    (void)channel;
     std::vector<double> results;
 
     results.push_back(250000);
@@ -210,10 +230,12 @@ bool SoapyRX888::hasHardwareTime(const std::string &what) const
 
 long long SoapyRX888::getHardwareTime(const std::string &what) const
 {
+    (void)what;
     return SoapySDR::ticksToTimeNs(ticks, sampleRate);
 }
 
 void SoapyRX888::setHardwareTime(const long long timeNs, const std::string &what)
 {
+    (void)what;
     ticks = SoapySDR::timeNsToTicks(timeNs, sampleRate);
 }
