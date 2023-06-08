@@ -1,4 +1,4 @@
-# This is a work in progress
+# Tested on macOS with Gqrx: Can now receive HF band
 
 ## Dependencies
 
