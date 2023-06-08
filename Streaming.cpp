@@ -166,7 +166,7 @@ SoapySDR::Stream *SoapyRX888::setupStream(
     {
         throw std::runtime_error(
                 "setupStream invalid format '" + format
-                        + "' -- Only S16 are supported by SoapyRX888 module.");
+                        + "' -- Only S16 and CF32 with imag=0 are supported by SoapyRX888 module.");
     }
 
     bufferLength = DEFAULT_BUFFER_LENGTH;
