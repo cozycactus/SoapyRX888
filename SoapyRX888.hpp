@@ -6,7 +6,7 @@
 #include <SoapySDR/Types.h>
 
 //#include <cstdint>
-#include <_types/_uint32_t.h>
+
 #include <librx888.h>
 #include <stdexcept>
 #include <thread>
