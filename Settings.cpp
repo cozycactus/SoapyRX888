@@ -137,7 +137,7 @@ bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
 {
     (void)direction;
     (void)channel;
-    return false;
+    return true;
 }
 
 
@@ -201,6 +201,7 @@ std::vector<double> SoapyRX888::listSampleRates(const int direction, const size_
     results.push_back(32000000);
     results.push_back(64000000);
     results.push_back(128000000);
+    results.push_back(150000000);
 
     return results;
 }
