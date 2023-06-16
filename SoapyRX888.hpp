@@ -130,7 +130,7 @@ public:
      * Gain API
      ******************************************************************/
     
-    //std::vector<std::string> listGains(const int direction, const size_t channel) const;
+    std::vector<std::string> listGains(const int direction, const size_t channel) const;
 
     bool hasGainMode(const int direction, const size_t channel) const;
 
@@ -144,7 +144,7 @@ public:
 
     //double getGain(const int direction, const size_t channel) const;
 
-    //SoapySDR::Range getGainRange(const int direction, const size_t channel) const;
+    SoapySDR::Range getGainRange(const int direction, const size_t channel) const;
 
     /*******************************************************************
      * Frequency API
@@ -197,6 +197,7 @@ private:
     rx888_dev_t *dev;
 
     //cached settings
+    uint8_t rfGain;
     rx888RXFormat rxFormat;
     uint32_t sampleRate;
     size_t numBuffers, bufferLength, asyncBuffs;

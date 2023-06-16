@@ -133,14 +133,28 @@ bool SoapyRX888::hasFrequencyCorrection(const int direction, const size_t channe
  * Gain API
  ******************************************************************/
 
+std::vector<std::string> SoapyRX888::listGains(const int direction, const size_t channel) const
+{
+    (void)direction;
+    (void)channel;
+    std::vector<std::string> gains;
+    gains.push_back("RF");
+    return gains;
+}
+
 bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
 {
     (void)direction;
     (void)channel;
-    return true;
+    return false;
 }
 
-
+SoapySDR::Range SoapyRX888::getGainRange(const int direction, const size_t channel) const
+{
+    (void)direction;
+    (void)channel;
+    return SoapySDR::Range(-20.0,0, 10.0);
+}
 
 SoapySDR::ArgInfoList SoapyRX888::getFrequencyArgsInfo(const int direction, const size_t channel) const
 {
