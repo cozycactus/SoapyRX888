@@ -144,8 +144,7 @@ public:
 
     //double getGain(const int direction, const size_t channel) const;
 
-    SoapySDR::Range getGainRange(const int direction, const size_t channel) const;
-
+    SoapySDR::Range getGainRange(const int direction, const size_t channel, const std::string &name) const;
     /*******************************************************************
      * Frequency API
      ******************************************************************/

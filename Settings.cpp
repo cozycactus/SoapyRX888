@@ -149,12 +149,18 @@ bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
     return false;
 }
 
-SoapySDR::Range SoapyRX888::getGainRange(const int direction, const size_t channel) const
+SoapySDR::Range SoapyRX888::getGainRange(const int direction, const size_t channel, const std::string &name) const
 {
     (void)direction;
     (void)channel;
-    return SoapySDR::Range(-20.0,0, 10.0);
-}
+    if (name == "RF")
+    {
+        return SoapySDR::Range(-20.0, 0, 10.0);
+    } else {
+        return SoapySDR::Range(0, 0);
+    }
+    return SoapySDR::Range(0, 0);
+} 
 
 SoapySDR::ArgInfoList SoapyRX888::getFrequencyArgsInfo(const int direction, const size_t channel) const
 {
