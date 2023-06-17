@@ -20,8 +20,6 @@ SoapyRX888::SoapyRX888(const SoapySDR::Kwargs &args):
     const auto serial = args.at("serial");
     deviceId = rx888_get_index_by_serial(serial.c_str());
     if (deviceId < 0) throw std::runtime_error("rx888_get_index_by_serial("+serial+") - " + std::to_string(deviceId));
-
-    
     
     SoapySDR_logf(SOAPY_SDR_DEBUG, "RX888 opening device %d", deviceId);
     if (rx888_open(&dev, deviceId) != 0) {
@@ -147,6 +145,16 @@ bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
     (void)direction;
     (void)channel;
     return false;
+}
+
+void SoapyRX888::setGain(const int direction, const size_t channel, const std::string &name, const double value) 
+{
+    (void)direction;
+    (void)channel;
+    if (name == "RF")
+    {
+        rx888_set_hf_attenuation(dev, value);
+    }
 }
 
 SoapySDR::Range SoapyRX888::getGainRange(const int direction, const size_t channel, const std::string &name) const

@@ -140,7 +140,7 @@ public:
 
     //void setGain(const int direction, const size_t channel, const double value);
 
-    //void setGain(const int direction, const size_t channel, const std::string &name, const double value);
+    void setGain(const int direction, const size_t channel, const std::string &name, const double value);
 
     //double getGain(const int direction, const size_t channel) const;
 
