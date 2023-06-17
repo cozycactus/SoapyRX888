@@ -19,6 +19,7 @@ std::vector<std::string> SoapyRX888::getStreamFormats(const int direction, const
     (void)direction; //unused
     std::vector<std::string> formats;
 
+    formats.push_back(SOAPY_SDR_CF32);
     formats.push_back(SOAPY_SDR_S16);
 
     return formats;
@@ -254,7 +255,7 @@ int SoapyRX888::activateStream(
     //start the async thread
     if (not _rx_async_thread.joinable())
     {
-        //rtlsdr_reset_buffer(dev);
+        //rx888_reset_buffer(dev);
         _rx_async_thread = std::thread(&SoapyRX888::rx_async_operation, this);
     }
 

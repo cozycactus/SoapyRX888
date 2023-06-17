@@ -14,16 +14,14 @@ SoapyRX888::SoapyRX888(const SoapySDR::Kwargs &args):
 {
     if (args.count("label") != 0) SoapySDR_logf(SOAPY_SDR_INFO, "Opening %s...", args.at("label").c_str());
 
-    //if a serial is not present, then findRTLSDR had zero devices enumerated
+    //if a serial is not present, then findRX888 had zero devices enumerated
     if (args.count("serial") == 0) throw std::runtime_error("No RX888 devices found!");
 
     const auto serial = args.at("serial");
     deviceId = rx888_get_index_by_serial(serial.c_str());
     if (deviceId < 0) throw std::runtime_error("rx888_get_index_by_serial("+serial+") - " + std::to_string(deviceId));
-
     
-    
-    SoapySDR_logf(SOAPY_SDR_DEBUG, "RTL-SDR opening device %d", deviceId);
+    SoapySDR_logf(SOAPY_SDR_DEBUG, "RX888 opening device %d", deviceId);
     if (rx888_open(&dev, deviceId) != 0) {
         throw std::runtime_error("Unable to open RX888 device");
     }
@@ -133,6 +131,15 @@ bool SoapyRX888::hasFrequencyCorrection(const int direction, const size_t channe
  * Gain API
  ******************************************************************/
 
+std::vector<std::string> SoapyRX888::listGains(const int direction, const size_t channel) const
+{
+    (void)direction;
+    (void)channel;
+    std::vector<std::string> gains;
+    gains.push_back("RF");
+    return gains;
+}
+
 bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
 {
     (void)direction;
@@ -140,7 +147,28 @@ bool SoapyRX888::hasGainMode(const int direction, const size_t channel) const
     return false;
 }
 
+void SoapyRX888::setGain(const int direction, const size_t channel, const std::string &name, const double value) 
+{
+    (void)direction;
+    (void)channel;
+    if (name == "RF")
+    {
+        rx888_set_hf_attenuation(dev, value);
+    }
+}
 
+SoapySDR::Range SoapyRX888::getGainRange(const int direction, const size_t channel, const std::string &name) const
+{
+    (void)direction;
+    (void)channel;
+    if (name == "RF")
+    {
+        return SoapySDR::Range(-20.0, 0, 10.0);
+    } else {
+        return SoapySDR::Range(0, 0);
+    }
+    return SoapySDR::Range(0, 0);
+} 
 
 SoapySDR::ArgInfoList SoapyRX888::getFrequencyArgsInfo(const int direction, const size_t channel) const
 {
@@ -201,6 +229,7 @@ std::vector<double> SoapyRX888::listSampleRates(const int direction, const size_
     results.push_back(32000000);
     results.push_back(64000000);
     results.push_back(128000000);
+    results.push_back(150000000);
 
     return results;
 }
