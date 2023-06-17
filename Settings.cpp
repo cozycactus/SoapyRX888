@@ -14,7 +14,7 @@ SoapyRX888::SoapyRX888(const SoapySDR::Kwargs &args):
 {
     if (args.count("label") != 0) SoapySDR_logf(SOAPY_SDR_INFO, "Opening %s...", args.at("label").c_str());
 
-    //if a serial is not present, then findRTLSDR had zero devices enumerated
+    //if a serial is not present, then findRX888 had zero devices enumerated
     if (args.count("serial") == 0) throw std::runtime_error("No RX888 devices found!");
 
     const auto serial = args.at("serial");
@@ -23,7 +23,7 @@ SoapyRX888::SoapyRX888(const SoapySDR::Kwargs &args):
 
     
     
-    SoapySDR_logf(SOAPY_SDR_DEBUG, "RTL-SDR opening device %d", deviceId);
+    SoapySDR_logf(SOAPY_SDR_DEBUG, "RX888 opening device %d", deviceId);
     if (rx888_open(&dev, deviceId) != 0) {
         throw std::runtime_error("Unable to open RX888 device");
     }
