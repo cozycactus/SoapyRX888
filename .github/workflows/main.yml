@@ -15,6 +15,7 @@ jobs:
   ubuntu-build:
     name: Linux CI
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-20.04,ubuntu-22.04,ubuntu-latest]
       
@@ -46,30 +47,64 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
       
-  macos-build:
-    name: macOS CI
-    strategy:
-      matrix:
-        os: [macos-11,macos-12,macos-latest]
 
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-    
-      - name: Install dependencies
-        run: |
-          
-          brew tap cozycactus/tap
-          brew update
-          brew install --HEAD librx888
-          brew install soapysdr
-          
-      - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+  osx-ci:
+        name: OS X
+        strategy:
+            fail-fast: false
+            matrix:
+                build_type: [Release, Debug]
+                config:
+                    - cc: gcc-10
+                      cxx: g++-10
+                      test_luajit: false
+                      os: macos-11
+                      python2_ver: '2.7'
+                      python3_ver: '3.8'
 
-      - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+                    - cc: gcc-11
+                      cxx: g++-11
+                      test_luajit: false
+                      os: macos-11
+                      python2_ver: '2.7'
+                      python3_ver: '3.8'
 
-      - name: Test
-        working-directory: ${{github.workspace}}/build
-        run: ctest -C ${{env.BUILD_TYPE}}
+                    - cc: clang
+                      cxx: clang++
+                      test_luajit: true
+                      os: macos-11
+                      python2_ver: '2.7'
+                      python3_ver: '3.8'
+
+                    - cc: clang
+                      cxx: clang++
+                      os: macos-12
+                      python2_ver: '2.7'
+                      python3_ver: '3.9'
+        runs-on: ${{matrix.config.os}}
+        env:
+            CC: ${{matrix.config.cc}}
+            CXX: ${{matrix.config.cxx}}
+            INSTALL_PREFIX: /usr/local
+        steps:
+              - uses: actions/checkout@v2
+            
+              - name: Install dependencies
+                run: |
+                  
+                  brew tap cozycactus/tap
+                  brew update
+                  brew install --HEAD librx888
+                  brew install soapysdr
+                  
+              - name: Build
+                run: |
+                  mkdir -p ${{github.workspace}}/build
+                  cd ${{github.workspace}}/build
+                  cmake -DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} -DCMAKE_BUILD_TYPE=${{matrix.build_type}} ${{github.workspace}}
+                  make
+              - name: Install
+                run: |
+                    cd ${{github.workspace}}/build
+                    sudo make install
+
