@@ -58,8 +58,9 @@ jobs:
     
       - name: Install dependencies
         run: |
+          brew tap cozycactus/tap
           brew update
-          brew install --HEAD cozycactus/tap/librx888
+          brew install --HEAD librx888
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
