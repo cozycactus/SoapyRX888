@@ -15,5 +15,5 @@ jobs:
       - name: Configure CMake
         run: cmake -B build -S .
       - name: Build
-        run: cmake --build build
+        run: cmake --build build --config Release --verbose
     
