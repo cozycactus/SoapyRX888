@@ -7,3 +7,10 @@ on:
   pull_request:
   workflow_dispatch:
   
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
