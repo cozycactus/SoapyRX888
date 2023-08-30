@@ -12,6 +12,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install Dependenices
+        run: brew install soapysdr
       - name: Configure CMake
         run: cmake -B build -S .
       - name: Build
