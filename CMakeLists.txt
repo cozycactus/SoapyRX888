@@ -44,7 +44,7 @@ add_feature_info(RX888 ENABLE_INTERNAL_RX888 "Support for RX888 devices")
 if (ENABLE_INTERNAL_RX888)
     message(STATUS "RX888 development files not found. Using submodule.")
 
-    if (EXISTS ${PROJECT_SOURCE_DIR}}/librx888/CMakeLists.txt)
+    if (EXISTS ${PROJECT_SOURCE_DIR}/librx888/CMakeLists.txt)
         add_subdirectory(librx888)
         set(RX888_FOUND TRUE)
         set(RX888_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/librx888/include)
