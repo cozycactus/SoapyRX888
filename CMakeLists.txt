@@ -33,10 +33,10 @@ endif ()
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(NOT ENABLE_INTERNAL_RX888)
-    find_package(RX888 CONFIG)
+    find_package(RX888)
 endif()
-#cmake_dependent_option(ENABLE_INTERNAL_RX888 "Enable RX888 support" ON "RX888_FOUND" OFF)
-#add_feature_info(RX888 ENABLE_INTERNAL_RX888 "Support for RX888 devices")
+CMAKE_DEPENDENT_OPTION(ENABLE_INTERNAL_RX888 "Enable RX888 support" ON "NOT RX888_FOUND" OFF)
+add_feature_info(RX888 ENABLE_INTERNAL_RX888 "Support for RX888 devices")
 
 if (ENABLE_INTERNAL_RX888)
     message(STATUS "RX888 development files not found. Using submodule.")
