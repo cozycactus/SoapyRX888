@@ -31,16 +31,33 @@ if (NOT SoapySDR_FOUND)
 endif ()
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-find_package(RX888)
-if (NOT RX888_FOUND)
-    message("RX888 development files not found. Using submodule.")
-    add_subdirectory(librx888)
-    set(RX888_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/librx888/include)
-    set(RX888_LIBRARIES rx888)
-else ()
-    set(RX888_INCLUDE_DIRS ${RX888_INCLUDE_DIRS})
-    set(RX888_LIBRARIES ${RX888_LIBRARIES}) 
-endif ()
+
+if(NOT ENABLE_INTERNAL_RX888)
+    find_package(RX888 CONFIG)
+endif()
+cmake_dependent_option(ENABLE_RX888 "Enable RX888 support" ON "RX888_FOUND" OFF)
+add_feature_info("  RX888" ENABLE_RX888 "Support for RX888 devices")
+
+if (ENABLE_INTERNAL_RX888)
+    message(STATUS "RX888 development files not found. Using submodule.")
+
+    if (EXISTS ${PROJECT_SOURCE_DIR}}/librx888/CMakeLists.txt)
+        add_subdirectory(librx888)
+        set(RX888_FOUND TRUE)
+        set(RX888_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/librx888/include)
+        set(RX888_LIBRARIES rx888)
+    else ()
+        message(STATUS "RX888 submodule not found. Cloning.")
+        execute_process(
+            COMMAND git submodule update --init --recursive
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            RESULT_VARIABLE retcode
+        )
+        if (NOT retcode EQUAL 0)
+            message(FATAL_ERROR "Failed to clone RX888 submodule. Please manually clone with: git submodule update --init --recursive")
+        endif ()
+    endif()
+endif()
 message(STATUS "RX888_INCLUDE_DIRS - ${RX888_INCLUDE_DIRS}")
 message(STATUS "RX888_LIBRARIES - ${RX888_LIBRARIES}")
 
