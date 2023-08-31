@@ -11,7 +11,10 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive' # Fetch submodules
       - name: Install Dependenices
         run: brew install soapysdr
       - name: Configure CMake
