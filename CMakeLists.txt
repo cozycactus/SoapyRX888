@@ -20,6 +20,9 @@ set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 set(MY_DEVICE_INCLUDE_DIRS ...)
 set(MY_DEVICE_LIBRARIES ...)
 
+include(FeatureSummary)
+include(CMakeDependentOption)
+
 ########################################################################
 # build the module
 ########################################################################
@@ -35,7 +38,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 if(NOT ENABLE_INTERNAL_RX888)
     find_package(RX888)
 endif()
-CMAKE_DEPENDENT_OPTION(ENABLE_INTERNAL_RX888 "Enable RX888 support" ON "NOT RX888_FOUND" OFF)
+cmake_dependent_option(ENABLE_INTERNAL_RX888 "Enable RX888 support" ON "NOT RX888_FOUND" OFF)
 add_feature_info(RX888 ENABLE_INTERNAL_RX888 "Support for RX888 devices")
 
 if (ENABLE_INTERNAL_RX888)
