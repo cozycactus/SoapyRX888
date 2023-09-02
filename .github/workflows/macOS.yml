@@ -6,36 +6,13 @@ on:
 jobs:
   osx-ci:
     name: OS X
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       
       matrix:
         build_type: [Release, Debug]
-        config:
-          - cc: gcc-10
-            cxx: g++-10
-            os: macos-11
-            python2_ver: '2.7'
-            python3_ver: '3.8'
-          - cc: gcc-11
-            cxx: g++-11
-            os: macos-11
-            python2_ver: '2.7'
-            python3_ver: '3.8'
-          - cc: clang
-            cxx: clang++
-            os: macos-11
-            python2_ver: '2.7'
-            python3_ver: '3.8'
-          - cc: clang
-            cxx: clang++
-            os: macos-12
-            python2_ver: '2.7'
-            python3_ver: '3.9'
-    env:
-      CC: ${{ matrix.config.cc }}
-      CXX: ${{ matrix.config.cxx }}
-      INSTALL_PREFIX: /usr/local
+        os: [macos-11, macos-12,macos-13]
+    
     steps:
     - uses: actions/checkout@v2
 
