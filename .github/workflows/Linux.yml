@@ -2,11 +2,10 @@ name: Linux CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: main
 
   pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches: main
   
 
 env:
@@ -16,6 +15,7 @@ env:
 jobs:
   ubuntu-build:
     name: Linux CI
+    permissions: read-all
     strategy:
       fail-fast: false
       matrix:
