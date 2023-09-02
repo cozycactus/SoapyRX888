@@ -32,7 +32,22 @@ jobs:
         sudo apt-get update -qq
         sudo apt-get install -y libusb-1.0-0-dev
         sudo apt-get install -y libsoapysdr-dev
+        
+    - name: Clone dependency(librx888)
+      run: git clone https://github.com/cozycactus/librx888.git
 
+    - name: Create build directory for librx888
+      run: |
+        cd librx888
+        mkdir build
+        cd build
+
+    - name: Configure and Build librx888
+      run: |
+        cd librx888/build
+        cmake ..
+        make install
+        
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
