@@ -5,7 +5,7 @@
 #include <SoapySDR/Formats.hpp>
 
 #include <SoapySDR/Time.hpp>
-#include <string>
+#include <cstring>
 #include "SoapyRX888.hpp"
 
 
