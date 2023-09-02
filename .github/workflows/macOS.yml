@@ -8,25 +8,22 @@ jobs:
     name: OS X
     runs-on: ${{ matrix.config.os }}
     strategy:
-      fail-fast: false
+      
       matrix:
         build_type: [Release, Debug]
         config:
           - cc: gcc-10
             cxx: g++-10
-            test_luajit: false
             os: macos-11
             python2_ver: '2.7'
             python3_ver: '3.8'
           - cc: gcc-11
             cxx: g++-11
-            test_luajit: false
             os: macos-11
             python2_ver: '2.7'
             python3_ver: '3.8'
           - cc: clang
             cxx: clang++
-            test_luajit: true
             os: macos-11
             python2_ver: '2.7'
             python3_ver: '3.8'
