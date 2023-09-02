@@ -22,6 +22,7 @@ jobs:
         brew update
         brew install --HEAD librx888
         brew install soapysdr
+        brew link --overwrite python@3.11
 
     - name: Build
       run: |
