@@ -8,7 +8,7 @@ jobs:
     name: OS X
     runs-on: ${{ matrix.os }}
     strategy:
-      
+      fail-fast: false
       matrix:
         build_type: [Release, Debug]
         os: [macos-11, macos-12,macos-13]
