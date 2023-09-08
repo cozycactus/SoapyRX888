@@ -5,7 +5,7 @@
 #include <SoapySDR/Formats.hpp>
 
 #include <SoapySDR/Time.hpp>
-#include <string>
+#include <cstring>
 #include "SoapyRX888.hpp"
 
 
@@ -32,7 +32,7 @@ std::string SoapyRX888::getNativeStreamFormat(const int direction, const size_t 
          throw std::runtime_error("RX888 is RX only, use SOAPY_SDR_RX");
      }
 
-     fullScale = 32767;
+     fullScale = 32768;
      return SOAPY_SDR_S16;
 }
 

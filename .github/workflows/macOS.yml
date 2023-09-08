@@ -1,0 +1,36 @@
+name: macOS CI
+on:
+  push:
+    branches:
+      - main
+jobs:
+  osx-ci:
+    name: OS X
+    permissions: read-all
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        os: [macos-11, macos-12,macos-13]
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        brew tap cozycactus/tap
+        brew install --HEAD librx888
+        brew install soapysdr
+
+    - name: Build
+      run: |
+        mkdir -p ${{ github.workspace }}/build
+        cd ${{ github.workspace }}/build
+        cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ${{ github.workspace }}
+        make
+
+    - name: Install
+      run: |
+        cd ${{ github.workspace }}/build
+        sudo make install
