@@ -158,7 +158,7 @@ SoapySDR::Stream *SoapyRX888::setupStream(
         SoapySDR_log(SOAPY_SDR_INFO, "Using format S16.");
         rxFormat = RX888_RX_FORMAT_INT16;
     }
-    else if (format == SOAPY_SDR_CF32)
+    else if (format == SOAPY_SDR_F32)
     {
         SoapySDR_log(SOAPY_SDR_INFO, "Using format CF32 with imaginary component set to zero.");
         rxFormat = RX888_RX_FORMAT_FLOAT32;
@@ -325,8 +325,8 @@ int SoapyRX888::readStream(
         for (size_t i = 0; i < returnedElems; i++)
         {
         int16_t val = *((int16_t*) &_currentBuff[2 * i]);
-        ftarget[i * 2] = float(val) / 32768.0f;   // scale int16_t to [-1, 1] range.
-        ftarget[i * 2 + 1] = 0.0f; // imaginary part is zero
+        ftarget[i] = float(val) / 32768.0f;   // scale int16_t to [-1, 1] range.
+        //ftarget[i * 2 + 1] = 0.0f; // imaginary part is zero
         }
     }
     //bump variables for next call into readStream
