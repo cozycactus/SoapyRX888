@@ -160,14 +160,19 @@ SoapySDR::Stream *SoapyRX888::setupStream(
     }
     else if (format == SOAPY_SDR_F32)
     {
-        SoapySDR_log(SOAPY_SDR_INFO, "Using format CF32 with imaginary component set to zero.");
+        SoapySDR_log(SOAPY_SDR_INFO, "Using format F32.");
         rxFormat = RX888_RX_FORMAT_FLOAT32;
+    }
+    else if (format == SOAPY_SDR_CF32)
+    {
+        SoapySDR_log(SOAPY_SDR_INFO, "Using format CF32 with imaginary part zero.");
+        rxFormat = RX888_RX_FORMAT_CFLOAT32;
     }
     else
     {
         throw std::runtime_error(
                 "setupStream invalid format '" + format
-                        + "' -- Only S16 and CF32 with imag=0 are supported by SoapyRX888 module.");
+                        + "' -- Only S16 and F32 are supported by SoapyRX888 module.");
     }
 
     bufferLength = DEFAULT_BUFFER_LENGTH;
@@ -327,6 +332,16 @@ int SoapyRX888::readStream(
         int16_t val = *((int16_t*) &_currentBuff[2 * i]);
         ftarget[i] = float(val) / 32768.0f;   // scale int16_t to [-1, 1] range.
         //ftarget[i * 2 + 1] = 0.0f; // imaginary part is zero
+        }
+    }
+    else if (rxFormat == RX888_RX_FORMAT_CFLOAT32)
+    {
+        float *ftarget = reinterpret_cast<float*>(buff0);
+        for (size_t i = 0; i < returnedElems; i++)
+        {
+        int16_t val = *((int16_t*) &_currentBuff[2 * i]);
+        ftarget[i * 2] = float(val) / 32768.0f;   // scale int16_t to [-1, 1] range.
+        ftarget[i * 2 + 1] = 0.0f; // imaginary part is zero
         }
     }
     //bump variables for next call into readStream
