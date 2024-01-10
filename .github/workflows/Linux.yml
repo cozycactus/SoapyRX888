@@ -41,6 +41,7 @@ jobs:
     - name: Create build directory for librx888
       run: |
         cd librx888
+        git checkout dev
         mkdir build
         cd build
 
